@@ -1,0 +1,16 @@
+@import 'tailwindcss';
+
+@font-face {
+  font-family: Technology;
+  src: url(../assets/font/technology.regular.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: Shojumaru;
+  src: url(../assets/font/Shojumaru-Regular.woff2) format('woff2');
+}
+
+@theme {
+  --font-Technology: 'Technology';
+  --font-Shojumaru: 'Shojumaru';
+}
