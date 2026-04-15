@@ -16,34 +16,40 @@
         class="w-full shadow-[4px_4px_10px_rgba(0,0,0,0.2),-4px_-4px_10px_rgba(255,255,255,0.7)] p-3 rounded-2xl"
       >
         <div
-          class="screen py-5 px-5 bg-[#d1e4f7] inset-shadow-[3px_3px_5px_rgba(0,0,0,0.2)] text-5xl font-Technology text-right rounded-lg text-[#537394e0]"
+          class="screen py-5 px-5 bg-[#d1e4f7] inset-shadow-[3px_3px_5px_rgba(0,0,0,0.2)] font-Technology text-right rounded-lg text-[#537394e0] text-5xl"
         >
-          1234
+          Hello there
         </div>
       </div>
       <div
-        class="container gap-2 grid grid-cols-4 [&>div]:p-5 sm:[&>div]:p-5 [&>div]:rounded-full [&>div]:shadow-[4px_4px_10px_rgba(0,0,0,0.2),-4px_-4px_7px_rgba(255,255,255,0.7)] [&>div]:flex [&>div]:justify-center [&>div]:items-center [&>div]:text-xl [&>div]:font-medium [&>div:not(.equal)]:text-[#696563]"
+        class="container gap-2 grid grid-cols-4 [&>div]:p-5 sm:[&>div]:p-5 [&>div]:rounded-full [&>div]:shadow-[4px_4px_10px_rgba(0,0,0,0.2),-4px_-4px_7px_rgba(255,255,255,0.7)] [&>div]:flex [&>div]:justify-center [&>div]:items-center [&>div]:text-xl [&>div]:font-medium [&>div:not(.equal)]:text-[#696563] [&>div]:hover:-translate-y-0.5 [&>div]:active:shadow-sm [&>div]active:translate-y-px [&>div]:transition [&>div]:duration-300 [&>div]:cursor-pointer"
       >
         <div class="clear bg-[#d9d3c7]">C</div>
         <div class="delete bg-[#d9d3c7]">DEL</div>
-        <div class="division bg-[#a6a5a2]">&divide</div>
-        <div class="slash bg-[#a6a5a2]">/</div>
-        <div class="seven">7</div>
-        <div class="eight">8</div>
-        <div class="slash">9</div>
-        <div class="multiplication bg-[#a6a5a2]">X</div>
-        <div class="four">4</div>
-        <div class="five">5</div>
-        <div class="six">6</div>
-        <div class="minus bg-[#a6a5a2]">-</div>
-        <div class="one">1</div>
-        <div class="two">2</div>
-        <div class="three">3</div>
-        <div class="equal row-span-2 bg-[#799aa0] text-white">=</div>
-        <div class="zero">0</div>
-        <div class="point col-span-2 bg-[#a6a5a2]">.</div>
+        <div class="btn bg-[#d9d3c7]">🔶</div>
+        <div class="operator bg-[#a6a5a2]" data-op="/">/</div>
+        <div class="num" data-number="7">7</div>
+        <div class="num" data-number="8">8</div>
+        <div class="num" data-number="9">9</div>
+        <div class="operator bg-[#a6a5a2]" data-op="*">X</div>
+        <div class="num" data-number="4">4</div>
+        <div class="num" data-number="5">5</div>
+        <div class="num" data-number="6">6</div>
+        <div class="operator bg-[#a6a5a2]" data-op="-">-</div>
+        <div class="num" data-number="1">1</div>
+        <div class="num" data-number="2">2</div>
+        <div class="num" data-number="3">3</div>
+        <div
+          class="operator equal row-span-2 bg-[#799aa0] text-white"
+          data-op="="
+        >
+          =
+        </div>
+        <div class="num" data-number="0">0</div>
+        <div class="point bg-[#a6a5a2]">.</div>
+        <div class="operator bg-[#a6a5a2]" data-op="+">+</div>
       </div>
     </div>
-    <!-- buttons -->
+    <script src="./script.js"></script>
   </body>
 </html>
