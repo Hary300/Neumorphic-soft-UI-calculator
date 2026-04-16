@@ -103,6 +103,19 @@ document.addEventListener('click', function (event) {
 
     screen.textContent = currentValue;
   }
+
+  const isChangeBgBtn = event.target.closest('.change-bg-btn');
+  if (isChangeBgBtn) {
+    const changeBackground = document.querySelector('.change-bg-btn');
+    let red = Math.floor(Math.random() * 256);
+    let green = Math.floor(Math.random() * 256);
+    let blue = Math.floor(Math.random() * 256);
+
+    let color = `rgb(${red},${green},${blue})`;
+
+    document.body.classList.remove('bg-amber-300');
+    document.body.style.backgroundColor = color;
+  }
 });
 
 function calculate(prevValue, operator, currentValueNumber) {
