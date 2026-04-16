@@ -14,3 +14,11 @@
   --font-Technology: 'Technology';
   --font-Shojumaru: 'Shojumaru';
 }
+
+.btn-style {
+  @apply p-5 rounded-full shadow-[4px_4px_10px_rgba(0,0,0,0.2),-4px_-4px_7px_rgba(255,255,255,0.7)] flex justify-center items-center text-xl font-medium  hover:-translate-y-0.5 active:shadow-sm active:translate-y-px transition duration-300 cursor-pointer disabled:opacity-40 disabled:pointer-events-none;
+
+  &:not(.equal) {
+    color: #696563;
+  }
+}

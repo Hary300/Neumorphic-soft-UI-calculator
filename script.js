@@ -1,149 +1,137 @@
 const screen = document.querySelector('.screen');
-let shownScreen = [];
-const totalDigit = 9;
-let calculate;
-let result;
+const btn = document.querySelectorAll('.btn');
+let currentValue = '';
+let prevValue;
+let operator;
+let isAfterEqual = false;
 
-document.addEventListener('click', function (e) {
-  const isNumber = e.target.closest('.num');
+document.addEventListener('click', function (event) {
+  const isNumber = event.target.closest('.num');
   if (isNumber) {
-    const number = Number(e.target.dataset.number);
-
-    if (!isNaN(number) && shownScreen.length <= totalDigit) {
-      shownScreen.push(number);
-      screen.textContent = shownScreen.join('');
+    const number = isNumber.dataset.number;
+    if (isAfterEqual) {
+      currentValue = '';
+      isAfterEqual = false;
     }
+    currentValue += number;
+    screen.textContent = currentValue;
   }
 
-  const isPoint = e.target.closest('.point');
-  if (isPoint) {
-    if (shownScreen.length <= totalDigit) {
-      if (shownScreen.length === 0) {
-        shownScreen.push(0);
-        shownScreen.push('.');
-      } else {
-        shownScreen.push('.');
-      }
-    }
-    screen.textContent = shownScreen.join('');
-  }
-
-  const isClear = e.target.closest('.clear');
-  if (isClear) {
-    screen.textContent = 0;
-    result = undefined;
-    calculate = undefined;
-    shownScreen = [];
-  }
-
-  const isDelete = e.target.closest('.delete');
-  if (isDelete) {
-    console.log(shownScreen.length);
-    if (shownScreen.length === 1) {
-      screen.textContent = 0;
-    } else {
-      shownScreen.pop();
-      screen.textContent = shownScreen.join('');
-    }
-  }
-
-  const isOperator = e.target.closest('.operator');
+  const isOperator = event.target.closest('.operator');
   if (isOperator) {
-    const operator = isOperator.dataset.op;
+    console.log('currentValue =', currentValue);
+    console.log('prevValue =', prevValue);
+    console.log('operator =', operator);
 
-    switch (operator) {
-      case '+':
-        if (shownScreen.length <= totalDigit) {
-          shownScreen.push('+');
-          screen.textContent = shownScreen.join('');
-          calculate = add;
-        }
-        break;
-      case '-':
-        if (shownScreen.length <= totalDigit) {
-          shownScreen.push('-');
-          screen.textContent = shownScreen.join('');
+    if (operator) return;
+    if (currentValue === '') return;
+    isAfterEqual = false;
+    prevValue = Number(currentValue);
+    operator = isOperator.dataset.op;
+    currentValue = '';
 
-          calculate = subtraction;
-        }
-        break;
-      case '/':
-        if (shownScreen.length <= totalDigit) {
-          shownScreen.push('/');
-          screen.textContent = shownScreen.join('');
+    console.log('currentValue =', currentValue);
+    console.log('prevValue =', prevValue);
+    console.log('operator =', operator);
+  }
 
-          calculate = division;
-        }
-        break;
-      case '*':
-        if (shownScreen.length <= totalDigit) {
-          shownScreen.push('*');
-          screen.textContent = shownScreen.join('');
+  const isEqual = event.target.closest('.equal');
+  if (isEqual) {
+    console.log('currentValue =', currentValue);
+    console.log('prevValue =', prevValue);
+    console.log('operator =', operator);
 
-          calculate = multiplication;
-        }
-        break;
-      case '=':
-        // console.log(calculate);
-        if (!calculate) return;
-        calculate(result, operand);
+    if (
+      currentValue === '' ||
+      prevValue === undefined ||
+      operator === undefined
+    )
+      return;
+    isAfterEqual = true;
+    const currentValueNumber = Number(currentValue);
+    const result = calculate(prevValue, operator, currentValueNumber);
+    screen.textContent = result;
 
-        break;
+    if (result === Infinity) {
+      disableBtn();
+    } else {
+      currentValue = String(result);
     }
-    // console.log(calculate);
-    // shownScreen = [];
-    // console.log(operandLength);
-    // const resultArr = result.toString().split('');
-    // const hasPoint = resultArr.includes('.');
-    // console.log(hasPoint);
-    // if (hasPoint) {
-    //   result = parseFloat(result.toFixed(10));
-    //   screen.textContent = result;
-    //   return;
-    // }
-
-    // screen.textContent = result;
+    prevValue = undefined;
+    operator = undefined;
   }
 
-  // console.log(calculate);
-  // const isEqual = e.target.closest('.equal');
-  // if (isEqual) {
-  //   calculate();
-  // }
-
-  function add(a, b) {
-    a = a ?? 0;
-    b = b ?? 0;
-    result = a + b;
-    console.log('a =', a);
-    console.log('b =', b);
-    console.log('a + b =', result);
+  const isClear = event.target.closest('.clear-btn');
+  if (isClear) {
+    clear();
+    showBtn();
   }
 
-  function subtraction(a, b) {
-    a = a ?? b * 2;
-    b = b ?? 0;
-    result = a - b;
-    console.log('a =', a);
-    console.log('b =', b);
-    console.log('a - b =', result);
+  const isDecimal = event.target.closest('.decimal');
+  if (isDecimal) {
+    const point = isDecimal.dataset.point;
+    if (isAfterEqual) {
+      currentValue = '';
+      isAfterEqual = false;
+    }
+    if (currentValue === '') {
+      screen.textContent = '0.';
+      currentValue = '0.';
+      return;
+    }
+    if (currentValue.includes('.')) {
+      return;
+    }
+    currentValue += point;
+    screen.textContent = currentValue;
   }
 
-  function division(a, b) {
-    a = a ?? 1;
-    b = b ?? 1;
-    return (result = a / b);
-  }
+  const isDelete = event.target.closest('.delete');
 
-  function multiplication(a, b) {
-    a = a || 1;
-    b = b || 1;
-    return (result = a * b);
-  }
+  if (isDelete) {
+    if (currentValue === '') return;
 
-  // const isEqual = e.target.closest('.equal');
-  // if (isEqual) {
-  //   shownScreen = [];
-  //   screen.textContent = result ?? 0;
-  // }
+    const currentValueLength = currentValue.length;
+    currentValue = currentValue.slice(0, currentValueLength - 1);
+
+    if (currentValue.length === 0) {
+      screen.textContent = 0;
+      currentValue = '';
+
+      return;
+    }
+
+    screen.textContent = currentValue;
+  }
 });
+
+function calculate(prevValue, operator, currentValueNumber) {
+  switch (operator) {
+    case '+':
+      return prevValue + currentValueNumber;
+    case '-':
+      return prevValue - currentValueNumber;
+    case '*':
+      return prevValue * currentValueNumber;
+    case '/':
+      return prevValue / currentValueNumber;
+    default:
+      return currentValueNumber;
+  }
+}
+
+function disableBtn() {
+  btn.forEach((b) => b.setAttribute('disabled', ''));
+}
+
+function showBtn() {
+  btn.forEach((b) => b.removeAttribute('disabled'));
+}
+
+function clear() {
+  screen.textContent = 0;
+  currentValue = '';
+  prevValue = undefined;
+  operator = undefined;
+  isAfterEqual = false;
+}
