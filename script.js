@@ -19,9 +19,17 @@ document.addEventListener('click', function (event) {
 
   const isOperator = event.target.closest('.operator');
   if (isOperator) {
+    console.log('-------');
     console.log('currentValue =', currentValue);
     console.log('prevValue =', prevValue);
     console.log('operator =', operator);
+
+    const isMinus = event.target.closest('.minus-btn');
+    if (currentValue === '' && isMinus) {
+      currentValue += isMinus.dataset.op;
+      screen.textContent = currentValue;
+      return;
+    }
 
     if (operator) return;
     if (currentValue === '') return;
@@ -29,7 +37,7 @@ document.addEventListener('click', function (event) {
     prevValue = Number(currentValue);
     operator = isOperator.dataset.op;
     currentValue = '';
-
+    console.log('-------');
     console.log('currentValue =', currentValue);
     console.log('prevValue =', prevValue);
     console.log('operator =', operator);
@@ -37,6 +45,7 @@ document.addEventListener('click', function (event) {
 
   const isEqual = event.target.closest('.equal');
   if (isEqual) {
+    console.log('-------');
     console.log('currentValue =', currentValue);
     console.log('prevValue =', prevValue);
     console.log('operator =', operator);
@@ -50,15 +59,29 @@ document.addEventListener('click', function (event) {
     isAfterEqual = true;
     const currentValueNumber = Number(currentValue);
     const result = calculate(prevValue, operator, currentValueNumber);
-    screen.textContent = result;
+    prevValue = undefined;
+    operator = undefined;
 
-    if (result === Infinity) {
+    if (Number.isNaN(result)) {
+      disableBtn();
+      screen.textContent = 'Error';
+      return;
+    }
+
+    if (result === Infinity || result === -Infinity) {
       disableBtn();
     } else {
       currentValue = String(result);
     }
-    prevValue = undefined;
-    operator = undefined;
+
+    if (!Number.isNaN(result) && result !== Math.trunc(result)) {
+      const changeFormat = Number(result.toFixed(4));
+      screen.textContent = changeFormat;
+      currentValue = String(changeFormat);
+      return;
+    }
+
+    screen.textContent = result;
   }
 
   const isClear = event.target.closest('.clear-btn');
@@ -87,7 +110,6 @@ document.addEventListener('click', function (event) {
   }
 
   const isDelete = event.target.closest('.delete');
-
   if (isDelete) {
     if (currentValue === '') return;
 
